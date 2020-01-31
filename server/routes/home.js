@@ -1,15 +1,15 @@
 // home (explore) routes
 const express = require('express');
-const { getHomeRecordings, getHomeCollections, getRecentlySaved } = require('../db/helpers/home');
+const { getHomeRecordings, getHomeCollections, getRecentlySaved, getArtists } = require('../db/helpers/home');
 const homeRouter = express.Router();
 
 homeRouter.get('/:userId', (req, res) => {
   const { userId } = req.params;
 
   const homeContent = [{
-    recent: [],
     collections: [],
     recordings: [],
+    users: []
   }];
 
   getHomeRecordings(userId)
@@ -18,9 +18,9 @@ homeRouter.get('/:userId', (req, res) => {
     getHomeCollections(userId)
     .then(rows => {
       homeContent[0].collections = rows;
-      getRecentlySaved(userId)
+      getArtists(userId)
       .then(rows => {
-        homeContent[0].recent = rows;
+        homeContent[0].users = rows;
         res.send(homeContent);
       })
     });
