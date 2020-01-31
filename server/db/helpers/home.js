@@ -52,6 +52,13 @@ const getRecentlySaved = (userId) => {
   return content;
 };
 
+const getArtists = (userId) => {
+  //get all artists that are not user
+  const artistSQL = `SELECT * FROM users WHERE id != ${userId} ORDER BY random() LIMIT 5`;
+  return db.query(artistSQL);
+};
+
 module.exports.getHomeCollections = getHomeCollections;
 module.exports.getHomeRecordings = getHomeRecordings;
 module.exports.getRecentlySaved = getRecentlySaved;
+module.exports.getArtists = getArtists;
